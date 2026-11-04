@@ -1,41 +1,82 @@
-This is an Expo/React Native mobile application. Prioritize mobile-first patterns, performance, and cross-platform compatibility.
+## Project-Specific Rules — HabitFlow
 
-## Expo has changed — do not trust your training data
+### Project Overview
+HabitFlow is a minimalist habit-tracking mobile application built with React Native, Expo, Expo Router and TypeScript.
 
-Expo ships breaking changes every SDK release. APIs you remember are likely renamed, moved, or removed. Before writing any code that touches an Expo, EAS, or React Native API:
+The main goal is to build a functional, maintainable application while keeping the code understandable for a developer who is learning mobile development.
 
-1. Read the major version of the `expo` package in `package.json`.
-2. Fetch the matching versioned docs: `https://docs.expo.dev/versions/v<major>.0.0/`
-3. For anything else, fetch https://docs.expo.dev/llms.txt — an index of all Expo docs with corrections to common LLM misconceptions. Follow its links to the specific page you need; never answer from memory.
+### Language
+- All user-facing text must be written in Spanish.
+- Use English for variable names, function names, component names and code identifiers.
+- Comments and technical documentation can be written in English or Spanish, but remain consistent within each file.
 
-## Commands
+### Development Approach
+- Prefer simple, readable and maintainable solutions.
+- Avoid overengineering, unnecessary abstractions and premature optimization.
+- Do not introduce complex architecture or additional libraries without a clear reason.
+- Do not rewrite working code unless the task explicitly requires it.
+- Make only the changes necessary to complete the requested task.
+- Preserve existing functionality and visual consistency.
+- Before modifying files, inspect the existing implementation and reuse what is already available.
 
-Use `bunx` instead of `npx` if the project uses bun (`bun.lock` present).
+### Learning-Friendly Code
+- Prefer straightforward implementations over clever or overly compact code.
+- Use TypeScript types and interfaces appropriately.
+- Avoid using `any` unless absolutely necessary.
+- Use descriptive variable and function names.
+- Keep components reasonably small and reusable when there is a real need.
+- Explain important architectural decisions and unfamiliar React Native concepts in the final summary.
+- Do not create unnecessary files just to separate a small amount of code.
 
-```bash
-npx expo install <package>  # ALWAYS use instead of npm/yarn/pnpm/bun add — resolves SDK-compatible versions
-npx expo start              # start the dev server
-npx expo lint               # lint
-npx tsc --noEmit            # typecheck
-npx expo-doctor             # diagnose dependency and config issues
-npx expo install --fix      # fix incompatible package versions
-```
+### UI and Design Guidelines
+Follow HabitFlow's minimalist visual identity:
 
-Run lint and typecheck before declaring any task done.
+- Background: #FFFFFF
+- Surface: #F3F7F3
+- Primary: #77A98A
+- Main text: #263B30
+- Secondary text: #829187
+- Rounded cards and subtle borders.
+- Consistent spacing and typography.
+- Clean layouts with generous whitespace.
+- Avoid excessive gradients, shadows and decorative elements.
 
-## Navigation & Routing
+All screens must maintain a consistent design language.
 
-- Use **Expo Router** for all navigation. Routes live in `src/app/` — every file there is a screen, `_layout.tsx` files define navigators. Keep non-route code (components, hooks, utils) outside `src/app/`.
-- Import `Link`, `router`, and `useLocalSearchParams` from `expo-router`.
-- Docs: https://docs.expo.dev/router/introduction.md
+### State Management and Data
+- Use React state and Context for simple shared application state.
+- Do not introduce Redux, Zustand or other state management libraries unless explicitly requested.
+- Keep business logic separate from UI when it improves clarity.
+- Avoid duplicating the same state across different screens.
+- Do not add a backend unless explicitly requested.
 
-## Building with EAS
+### Dependencies
+- Before installing a new dependency, check whether the functionality can be implemented with existing tools or Expo modules.
+- Prefer Expo-compatible packages.
+- Do not install dependencies without explaining why they are needed.
+- Preserve compatibility with Expo Go whenever possible.
+- If a feature requires a development build, explain this before implementing it.
 
-Use EAS to build, sign, and submit the app in the cloud (`eas build`, `eas submit`) and to ship over-the-air updates (`eas update`) — no local Xcode or Android Studio required. Run EAS CLI as `bunx eas-cli <command>` in Bun projects, or `npx eas-cli@latest <command>` otherwise; substitute that for bare `eas` in docs examples.
-Docs: https://docs.expo.dev/eas/index.md
+### File Organization
+- Routes and screens belong in `src/app/`.
+- Reusable components belong in `src/components/`.
+- Context providers and hooks belong outside `src/app/`.
+- Shared types belong in `src/types/`.
+- Constants and theme configuration belong in `src/constants/`.
+- Database and persistence logic belong in `src/database/` or `src/services/`, depending on their responsibility.
 
-## Rules
+Do not create these folders until they are actually needed.
 
-- If `ios/` and `android/` directories do not exist, they are generated (Continuous Native Generation). Never create or edit them by hand — configure native behavior in `app.json` and config plugins.
-- Expo Go only includes its bundled native modules. After adding a library with native code, the app needs a development build: `npx expo run:ios|android` locally, or `eas build --profile development`.
-- Prefer recommended Expo modules over third-party libraries, and check your available skills before adding dependencies. Docs: https://docs.expo.dev/versions/latest/index.md
+### Validation
+Before declaring a task complete:
+- Run `npx expo lint`.
+- Run `npx tsc --noEmit`.
+- Fix errors introduced by the changes.
+- Report any existing errors that could not be resolved.
+- Explain how to test the feature in Expo Go.
+
+### Git
+- Do not create commits, push changes or modify Git remotes unless explicitly requested.
+- Keep changes focused so they can be reviewed and committed independently.
+
+Before writing any code that touches an Expo, EAS, or React Native API, consult the documentation matching the installed SDK version.
