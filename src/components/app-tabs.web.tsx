@@ -7,13 +7,17 @@ import {
   TabListProps,
 } from 'expo-router/ui';
 import { SymbolView } from 'expo-symbols';
+import { House, ListCheck, ChartBar, User } from 'lucide-react-native';
 import { Pressable, useColorScheme, View, StyleSheet } from 'react-native';
 
 import { Colors, MaxContentWidth, Spacing } from '@/constants/theme';
+import { useTheme } from '@/hooks/use-theme';
 
 import { ExternalLink } from './external-link';
 import { ThemedText } from './themed-text';
 import { ThemedView } from './themed-view';
+
+const SAGE_GREEN = '#77A98A';
 
 export default function AppTabs() {
   return (
@@ -22,16 +26,16 @@ export default function AppTabs() {
       <TabList asChild>
         <CustomTabList>
           <TabTrigger name="index" href="/" asChild>
-            <TabButton>Inicio</TabButton>
+            <TabButton icon={House}>Inicio</TabButton>
           </TabTrigger>
           <TabTrigger name="habits" href="/habits" asChild>
-            <TabButton>Hábitos</TabButton>
+            <TabButton icon={ListCheck}>Hábitos</TabButton>
           </TabTrigger>
           <TabTrigger name="statistics" href="/statistics" asChild>
-            <TabButton>Estadísticas</TabButton>
+            <TabButton icon={ChartBar}>Estadísticas</TabButton>
           </TabTrigger>
           <TabTrigger name="profile" href="/profile" asChild>
-            <TabButton>Perfil</TabButton>
+            <TabButton icon={User}>Perfil</TabButton>
           </TabTrigger>
         </CustomTabList>
       </TabList>
@@ -39,14 +43,24 @@ export default function AppTabs() {
   );
 }
 
-export function TabButton({ children, isFocused, ...props }: TabTriggerSlotProps) {
+type TabButtonProps = TabTriggerSlotProps & {
+  icon?: React.ComponentType<{ size?: number; color?: string; strokeWidth?: number }>;
+};
+
+export function TabButton({ children, isFocused, icon: Icon, ...props }: TabButtonProps) {
   const { ref, ...rest } = props as any;
+  const theme = useTheme();
+  const currentColor = isFocused ? SAGE_GREEN : theme.textSecondary;
+
   return (
     <Pressable {...rest} style={({ pressed }) => pressed && styles.pressed}>
       <ThemedView
         type={isFocused ? 'backgroundSelected' : 'backgroundElement'}
         style={styles.tabButtonView}>
-        <ThemedText type="small" themeColor={isFocused ? 'text' : 'textSecondary'}>
+        {Icon ? <Icon size={16} color={currentColor} strokeWidth={2.2} /> : null}
+        <ThemedText
+          type="small"
+          style={{ color: currentColor, fontWeight: isFocused ? '600' : '500' }}>
           {children}
         </ThemedText>
       </ThemedView>
@@ -108,6 +122,9 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   tabButtonView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.one,
     paddingVertical: Spacing.one,
     paddingHorizontal: Spacing.three,
     borderRadius: Spacing.three,

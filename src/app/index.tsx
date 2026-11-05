@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  ActivityIndicator,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -9,7 +10,15 @@ import {
 import { useHabits } from '@/context/HabitContext';
 
 export default function HomeScreen() {
-  const { habits, completedCount, progress, toggleHabit } = useHabits();
+  const { habits, completedCount, progress, toggleHabit, isLoading } = useHabits();
+
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#77A98A" />
+      </View>
+    );
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -90,6 +99,12 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+  },
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',

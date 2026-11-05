@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  ActivityIndicator,
   Alert,
   Platform,
   Pressable,
@@ -14,10 +15,18 @@ import { Habit, HabitFormData, formatHabitFrequency } from '@/types/habit';
 import { HabitFormModal } from '@/components/HabitFormModal';
 
 export default function HabitsScreen() {
-  const { habits, addHabit, updateHabit, deleteHabit } = useHabits();
+  const { habits, addHabit, updateHabit, deleteHabit, isLoading } = useHabits();
 
   const [modalVisible, setModalVisible] = useState(false);
   const [habitToEdit, setHabitToEdit] = useState<Habit | null>(null);
+
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#77A98A" />
+      </View>
+    );
+  }
 
   function handleOpenCreate() {
     setHabitToEdit(null);
@@ -153,6 +162,12 @@ export default function HabitsScreen() {
 }
 
 const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+  },
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
